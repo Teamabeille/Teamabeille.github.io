@@ -7,20 +7,23 @@
     body {
       margin: 0;
       height: 100vh;
-      background: url("https://upload.wikimedia.org/wikipedia/en/9/9d/Windows_XP_Bliss_wallpaper.jpg") no-repeat center center fixed;
+      background: url("https://www.ixpap.com/images/2024/02/Windows-XP-Wallpaper.jpg") no-repeat center center fixed;
       background-size: cover;
       font-family: "Trebuchet MS", "Frutiger", sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
     .window {
-      width: 300px;
+      width: 320px;
       border: 2px solid #0055aa;
       border-radius: 4px;
       box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
       background: #f0f0f0;
+      position: relative;
+      z-index: 10;
     }
 
     .title-bar {
@@ -29,17 +32,36 @@
       padding: 6px;
       font-weight: bold;
       border-bottom: 1px solid #002f5f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* Contenu */
+    .title-buttons {
+      display: flex;
+      gap: 4px;
+    }
+    .title-buttons div {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      background: #eee;
+      border: 1px solid #333;
+      cursor: pointer;
+    }
+    .close { background: red; }
+    .minimize { background: yellow; }
+    .maximize { background: green; }
+
+
     .content {
       padding: 16px;
       text-align: center;
     }
 
-    .btn {
-      display: inline-block;
-      margin: 6px;
+    .buttons a {
+      display: block;
+      margin: 8px auto;
       padding: 6px 12px;
       background: linear-gradient(to bottom, #ffffff, #dcdcdc);
       border: 1px solid #888;
@@ -48,25 +70,62 @@
       text-decoration: none;
       color: black;
       font-size: 14px;
+      text-align: left;
     }
-    .btn:hover {
+    .buttons img {
+      vertical-align: middle;
+      margin-right: 6px;
+      width: 18px;
+      height: 18px;
+    }
+    .buttons a:hover {
       background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      animation: rise 12s infinite ease-in;
+    }
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
     }
   </style>
 </head>
 <body>
+  <div class="bubble" style="left:10%; width:20px; height:20px; animation-delay:0s;"></div>
+  <div class="bubble" style="left:30%; width:15px; height:15px; animation-delay:2s;"></div>
+  <div class="bubble" style="left:50%; width:25px; height:25px; animation-delay:4s;"></div>
+  <div class="bubble" style="left:70%; width:18px; height:18px; animation-delay:6s;"></div>
+  <div class="bubble" style="left:85%; width:22px; height:22px; animation-delay:8s;"></div>
+
   <div class="window">
     <div class="title-bar">
       <span>Me.exe</span>
+      <div class="title-buttons">
+        <div class="minimize"></div>
+        <div class="maximize"></div>
+        <div class="close"></div>
+      </div>
     </div>
     <div class="content">
       <p>Neuil sur :</p>
       <div class="buttons">
-        <a href="https://www.youtube.com/@TeamabeilleYT" class="btn">Mon Youtube</a>
-        <a href="https://www.tiktok.com/@te4mab3ille" class="btn">Mon TikTok</a>
-        <a href="https://www.instagram.com/teamabeilleyt/" class="btn">Mon Instagram</a>
+        <a href="https://www.youtube.com/@TeamabeilleYT">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> Mon Youtube
+        </a>
+        <a href="https://www.tiktok.com/@te4mab3ille">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"> Mon TikTok
+        </a>
+        <a href="https://www.instagram.com/teamabeilleyt/">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Mon Instagram
+        </a>
       </div>
     </div>
   </div>
 </body>
 </html>
+
