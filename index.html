@@ -23,6 +23,7 @@
       background: #f0f0f0;
       position: relative;
       z-index: 10;
+      margin: 20px;
     }
     .title-bar {
       background: linear-gradient(to bottom, #3a6ea5, #1c3f70);
@@ -68,7 +69,7 @@
       bottom: -50px;
       background: rgba(153,255,255,0.8);
       border-radius: 50%;
-      animation: rise 12s infinite ease-in;
+      animation: rise linear infinite;
     }
     @keyframes rise {
       0% { transform: translateY(0) scale(1); opacity: 0.7; }
@@ -82,61 +83,66 @@
       color: black; font-size: 13px;
     }
     .play-btn:hover { background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); }
-
-    .profile {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      width: 280px;
-      background: rgba(240,240,240,0.9);
-      border: 2px solid #0055aa;
-      border-radius: 4px;
-      box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-      padding: 12px;
+    .job-content {
+      padding: 16px;
       font-size: 14px;
       text-align: left;
       line-height: 1.6;
     }
-    .profile h3 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #1c3f70;
-    }
   </style>
 </head>
 <body>
-  <div class="bubble" style="left:5%; width:12px; height:12px; animation-delay:0s;"></div>
-  <div class="bubble" style="left:15%; width:20px; height:20px; animation-delay:2s;"></div>
-  <div class="bubble" style="left:25%; width:18px; height:18px; animation-delay:4s;"></div>
-  <div class="bubble" style="left:35%; width:25px; height:25px; animation-delay:6s;"></div>
-  <div class="bubble" style="left:45%; width:14px; height:14px; animation-delay:8s;"></div>
-  <div class="bubble" style="left:55%; width:22px; height:22px; animation-delay:10s;"></div>
-  <div class="bubble" style="left:65%; width:16px; height:16px; animation-delay:12s;"></div>
-  <div class="bubble" style="left:75%; width:28px; height:28px; animation-delay:14s;"></div>
-  <div class="bubble" style="left:85%; width:20px; height:20px; animation-delay:16s;"></div>
-  <div class="bubble" style="left:95%; width:18px; height:18px; animation-delay:18s;"></div>
+  <script>
+  const nbBulles = 50;
+  for (let i = 0; i < nbBulles; i++) {
+    const b = document.createElement("div");
+    b.className = "bubble";
 
-  <div class="profile">
-    <h3>Profil</h3>
-    Developer (Python) 📜<br>
-    Web Designer<br>
-    Game Maker & Designer 🎮<br>
-    Sprite & Tile Creator 🎨<br>
-    Idea Maker & Art Director 💡<br>
-    3D Modeler 🧊<br>
-    Render Maker & Animation 🎞️<br>
-    Music Maker 🎵<br><br>
-    Ex Modo dans Orion's Realm 🛡️<br>
-    Owner et Hoster de Pet Collector XXL<br>
-    Owner et Hoster de Lost In Mind Intelligent Nostalgia Accured Light 1998<br>
-    Owner et Hoster de Skibidi Backrooms<br>
-    Co-Owner de TerraVita<br>
-    Owner et Hoster de Project b0b<br>
-    Owner et Hoster de Project SCH<br>
-    Ex Owner et Hoster de Shapeshifter Creations<br>
-    Un salaire ? Non x)
+    const size = Math.floor(Math.random() * 20) + 10;
+    b.style.width = size + "px";
+    b.style.height = size + "px";
+
+    b.style.left = Math.floor(Math.random() * 100) + "%";
+
+    const duration = Math.random() * 12 + 8;
+    b.style.animationDuration = duration + "s";
+
+    const delay = Math.random() * 20;
+    b.style.animationDelay = delay + "s";
+    document.body.appendChild(b);
+  }
+</script>
+
+  <div class="window" style="position:absolute; left:20px; top:20px;">
+    <div class="title-bar">
+      <span>Job.exe</span>
+      <div class="title-buttons">
+        <div class="minimize"></div>
+        <div class="maximize"></div>
+        <div class="close"></div>
+      </div>
+    </div>
+    <div class="job-content">
+      Developer (Python) 📜<br>
+      Web Designer<br>
+      Game Maker & Designer 🎮<br>
+      Sprite & Tile Creator 🎨<br>
+      Idea Maker & Art Director 💡<br>
+      3D Modeler 🧊<br>
+      Render Maker & Animation 🎞️<br>
+      Music Maker 🎵<br><br>
+      Ex Modo dans Orion's Realm 🛡️<br>
+      Owner et Hoster de Pet Collector XXL<br>
+      Owner et Hoster de Lost In Mind Intelligent Nostalgia Accured Light 1998<br>
+      Owner et Hoster de Skibidi Backrooms<br>
+      Co-Owner de TerraVita<br>
+      Owner et Hoster de Project b0b<br>
+      Owner et Hoster de Project SCH<br>
+      Ex Owner et Hoster de Shapeshifter Creations<br>
+      Un salaire ? Non x)
+    </div>
   </div>
-
+  
   <div class="window">
     <div class="title-bar">
       <span>Me.exe</span>
