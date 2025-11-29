@@ -131,6 +131,25 @@
     </div>
   </div>
 
-  <audio id="ambiance" src="https://static.wikia.nocookie.net/backrooms-freewriting/images/8/8a/Lastminutesofnostaliga.mp3" type="audio/mpeg" autoplay loop></audio>
+<audio id="ambiance" src="https://static.wikia.nocookie.net/backrooms-freewriting/images/8/8a/Lastminutesofnostaliga.mp3" type="audio/mpeg" preload="auto" loop></audio>
+
+  <script>
+    const audio = document.getElementById('ambiance');
+    const playBtn = document.getElementById('playAmbiance');
+
+    const tryPlay = () => {
+      audio.play().then(() => {
+        if (playBtn) playBtn.style.display = 'none';
+        window.removeEventListener('pointerdown', tryPlay);
+        window.removeEventListener('keydown', tryPlay);
+      }).catch(() => {
+      });
+    };
+
+    window.addEventListener('pointerdown', tryPlay, { once: true });
+    window.addEventListener('keydown', tryPlay, { once: true });
+
+    playBtn.addEventListener('click', tryPlay);
+  </script>
 </body>
 </html>
