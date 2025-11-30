@@ -13,6 +13,10 @@
       overflow: hidden;
     }
     .window {
+      position: absolute !important;
+    }
+
+    .window {
       width: 340px;
       border: 2px solid #0055aa;
       border-radius: 4px;
@@ -32,12 +36,27 @@
       align-items: center;
       cursor: move;
     }
-    .title-buttons { display: flex; gap: 4px; }
-    .title-buttons div {
-      width: 14px; height: 14px; border-radius: 2px;
-      background: #eee; border: 1px solid #333; cursor: pointer;
+    .title-buttons {
+      display: flex;
+      gap: 2px;
     }
-    .close { background: red; } .minimize { background: yellow; } .maximize { background: green; }
+
+    .title-buttons button {
+      width: 26px;
+      height: 26px;
+      border: none
+      background: none
+      cursor: pointer;
+      padding: 0
+    }
+
+    .title-buttons button img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .close { background: none; } .minimize { background: none; } .maximize { background: none; }
     .content { padding: 16px; text-align: center; }
     .buttons a {
       display: block;
@@ -67,6 +86,12 @@
       text-align: left;
       line-height: 1.6;
     }
+    .story-content {
+      padding: 16px;
+      font-size: 14px;
+      text-align: left;
+      line-height: 1.6;
+    }
     .play-btn {
       display: inline-block; margin-top: 10px; padding: 6px 12px;
       background: linear-gradient(to bottom, #ffffff, #dcdcdc);
@@ -86,6 +111,91 @@
       0% { transform: translateY(0) scale(1); opacity: 0.7; }
       100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
     }
+
+    .xp-taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      box-sizing: border-box;
+      background: linear-gradient(to top, #275EF5 0%, #0B49F4 60%, #093CC8 100%);
+      border-top: 2px solid #275EF5;
+    }
+    .xp-start {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: linear-gradient(to bottom, #60b65f, #2f8a2e);
+      color: #fff;
+      font-weight: bold;
+      border-radius: 18px;
+      border: 1px solid #1e5f1c;
+      box-shadow: inset 1px 1px rgba(255,255,255,0.5), 2px 2px 0 rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .xp-start:hover { filter: brightness(1.05); }
+
+    .xp-start-logo {
+      width: 18px;
+      height: 18px;
+    }
+    .xp-start-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .xp-start-text {
+      font-family: Tahoma, Verdana, sans-serif;
+      font-size: 13px;
+    }
+
+    .xp-quicklaunch {
+      display: flex; align-items: center; gap: 6px; margin-left: 10px;
+    }
+    .xp-ql-btn {
+      width: 28px; height: 28px; padding: 2px;
+      background: linear-gradient(to bottom, #ffffff, #dcdcdc);
+      border: 1px solid #7a7a7a; border-radius: 3px;
+      box-shadow: inset 1px 1px #fff, inset -1px -1px #ccc;
+      cursor: pointer;
+    }
+    .xp-ql-btn img { width: 100%; height: 100%; object-fit: contain; }
+
+    .xp-tasks {
+      display: flex; align-items: center; gap: 6px;
+      margin-left: 12px; flex: 1;
+    }
+    .xp-task {
+      min-width: 140px; max-width: 220px;
+      padding: 4px 10px;
+      background: linear-gradient(to bottom, #2E5BFF, #2E5BFF);
+      border: 1px solid #585CD1; border-radius: 3px;
+      box-shadow: inset 1px 1px #0008A3, inset -1px -1px #000AD1;
+      color: #BDBFFF; font-size: 13px; font-family: Tahoma, Verdana, sans-serif;
+      cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .xp-task:hover { background: linear-gradient(to bottom, #171DFF, #5C61FF); }
+
+    .xp-tray {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 8px; border-left: 1px solid rgba(255,255,255,0.3);
+    }
+    .xp-tray-icon { width: 16px; height: 16px; filter: drop-shadow(0 0 1px rgba(0,0,0,0.4)); }
+    #xp-clock {
+      font-family: Tahoma, Verdana, sans-serif; font-size: 12px; color: #fff;
+      padding-left: 8px; border-left: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .title-bar:active { cursor: grabbing; }
+    .window:focus { outline: none; }
+
   </style>
 </head>
 <body>
@@ -165,71 +275,95 @@
       playBtn.addEventListener('click', tryPlay);
     }
   });
-</script>
+  function updateClock() {
+    const el = document.getElementById('xp-clock');
+    if (!el) return;
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    el.textContent = `${hh}:${mm}`;
+  }
+  updateClock();
+  setInterval(updateClock, 15000);
 
+  document.querySelectorAll('.xp-task').forEach(task => {
+    task.addEventListener('click', () => {
+      const name = task.textContent.trim();
+      const wins = Array.from(document.querySelectorAll('.window'));
+      const target = wins.find(w => w.querySelector('.title-bar span')?.textContent.trim() === name);
+      if (target) target.style.zIndex = 100;
+    });
+  });
+</script>
 
   <div class="window" style="left:200px; top:200px;">
     <div class="title-bar">
       <span>Job.exe</span>
       <div class="title-buttons">
-        <div class="minimize"></div>
-        <div class="maximize"></div>
-        <div class="close"></div>
+        <button class="minimize">
+          <img src="http://p1.mb5u.com/fi/508/19948_Minimize_Box_Blue.png">
+        </button>
+        <button class="close">
+          <img src="http://p1.mb5u.com/fi/508/19914_Close_Box_Red.png">
+        </button>
       </div>
     </div>
     <div class="job-content">
-      Developer (Python) 📜<br>
-      Web Designer<br>
-      Game Maker & Designer 🎮<br>
-      Sprite & Tile Creator 🎨<br>
-      Idea Maker & Art Director 💡<br>
-      3D Modeler 🧊<br>
-      Render Maker & Animation 🎞️<br>
-      Music Maker 🎵<br><br>
-      Ex Modo dans Orion's Realm 🛡️<br>
-      Owner et Hoster de Pet Collector XXL<br>
-      Owner et Hoster de Lost In Mind Intelligent Nostalgia Accured Light 1998<br>
-      Owner et Hoster de Skibidi Backrooms<br>
-      Co-Owner de TerraVita<br>
-      Owner et Hoster de Project b0b<br>
-      Owner et Hoster de Project SCH<br>
-      Ex Owner et Hoster de Shapeshifter Creations<br>
+      • Developer (Python) 📜<br>
+      • Web Designer<br>
+      • Game Maker & Designer 🎮<br>
+      • Sprite & Tile Creator 🎨<br>
+      • Idea Maker & Art Director 💡<br>
+      • 3D Modeler 🧊<br>
+      • Render Maker & Animation 🎞️<br>
+      • Music Maker 🎵<br><br>
+      • Ex Modo dans Orion's Realm 🛡️<br>
+      • Owner et Hoster de Pet Collector XXL<br>
+      • Owner et Hoster de L.I.M.I.N.A.L. 1998<br>
+      • Owner et Hoster de Skibidi Backrooms<br>
+      • Co-Owner de TerraVita<br>
+      • Owner et Hoster de Project b0b<br>
+      • Owner et Hoster de Project SCH<br>
+      • Ex Owner et Hoster de Shapeshifter Creations<br><br>
       Un salaire ? Non x)
     </div>
   </div>
-  
+
   <div class="window" style="left:600px; top:200px;">
     <div class="title-bar">
       <span>Me.exe</span>
       <div class="title-buttons">
-        <div class="minimize"></div>
-        <div class="maximize"></div>
-        <div class="close"></div>
+        <button class="minimize">
+          <img src="http://p1.mb5u.com/fi/508/19948_Minimize_Box_Blue.png">
+        </button>
+        <button class="close">
+          <img src="http://p1.mb5u.com/fi/508/19914_Close_Box_Red.png">
+        </button>
       </div>
     </div>
 <div class="content">
   <p>Neuil sur :</p>
   <div class="buttons">
     <a href="https://www.youtube.com/@TeamabeilleYT">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> Mon Youtube
+      <img src="https://www.freeiconspng.com/uploads/youtube-logo-png-6.png" alt="YouTube"> Mon Youtube
     </a>
     <a href="https://www.tiktok.com/@te4mab3ille">
       <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"> Mon TikTok
     </a>
     <a href="https://www.instagram.com/teamabeilleyt/">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Mon Instagram
+      <img src="https://clipartcraft.com/images/transparent-instagram-logo-old-6.png" alt="Instagram"> Mon Instagram
     </a>
     <a href="https://www.reddit.com/user/Teamabeille/">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Mon Reddit
     </a>
     <a href="https://www.roblox.com/users/1428058135/profile">
-      <img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" alt="Roblox"> Mon Roblox
+      <img src="https://tr.rbxcdn.com/180DAY-d0e08581fa198d6751733d139b56480d/420/420/Image/Png/noFilter" alt="Roblox"> Mon Roblox
     </a>
     <a href="https://steamcommunity.com/id/teamabeille/">
-      <img src="https://cdn-icons-png.flaticon.com/512/3669/3669989.png" alt="Steam"> Mon Steam
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Steamgg.png" alt="Steam"> Mon Steam
     </a>
     <a href="https://x.com/hipp0melon">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X"> Mon X/Twitter
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"> Mon Twitter
     </a>
     <a href="https://www.twitch.tv/te4mab3ille">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111668.png" alt="Twitch"> Mon Twitch
@@ -240,12 +374,93 @@
     <a href="https://soundcloud.com/team-abeille">
       <img src="https://cdn-icons-png.flaticon.com/512/145/145809.png" alt="SoundCloud"> Mon SoundCloud
     </a>
-    <a href="#">
+    <a href="https://discord.gg/Y89ABSA3yX">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Mon Discord : team_abeille
     </a>
   </div>
   <button class="play-btn" id="playAmbiance">Play ambiance</button>
 </div>
+</div>
+
+<div class="window" style="left:1000px; top:200px;">
+  <div class="title-bar">
+    <span>Game.exe</span>
+      <div class="title-buttons">
+        <button class="minimize">
+          <img src="http://p1.mb5u.com/fi/508/19948_Minimize_Box_Blue.png">
+        </button>
+        <button class="close">
+          <img src="http://p1.mb5u.com/fi/508/19914_Close_Box_Red.png">
+        </button>
+      </div>
+  </div>
+  <div class="story-content">
+        <p><strong>Je joue à :</strong><br>
+    • Counter Strike 2 🔫<br>
+    • Minecraft ⛏️<br>
+    • Geometry Dash 📐<br>
+    • Project Sekai 🎤<br>
+    • Roblox 🎲 (Pressure, Parkour Reborn, Dandy's World)<br>
+    • Et d'autres<br><br>
+    #antiosu #antibloxfruit #antisolsrng</p>
+  </div>
+</div>
+
+
+<div class="window" style="left:1000px; top:550px;">
+  <div class="title-bar">
+    <span>Personality.exe</span>
+      <div class="title-buttons">
+        <button class="minimize">
+          <img src="http://p1.mb5u.com/fi/508/19948_Minimize_Box_Blue.png">
+        </button>
+        <button class="close">
+          <img src="http://p1.mb5u.com/fi/508/19914_Close_Box_Red.png">
+        </button>
+      </div>
+  </div>
+  <div class="story-content">
+    • Con mais drôle 🦧<br>
+    • Nerd 🤓☝️<br>
+    • Sérieux et travailleur 💼<br>
+    • Chill et mature (parfois) 😌
+  </div>
+</div>
+
+
+<div class="xp-taskbar">
+<div class="xp-start">
+  <div class="xp-start-logo">
+    <img src="https://www.clipartmax.com/png/full/16-162608_windows-logo-png-windows-xp-logo.png" alt="Windows XP Logo">
+  </div>
+  <span class="xp-start-text">Start</span>
+</div>
+
+
+  <div class="xp-quicklaunch">
+    <button class="xp-ql-btn" title="Internet Explorer">
+      <img src="https://officialpsds.com/imageview/7y/02/7y02mj_large.png" alt="IE">
+    </button>
+  </div>
+
+  <div class="xp-tasks">
+      <div class="xp-task">
+        <img src="https://static.wikia.nocookie.net/logopedia/images/e/ea/Windows_XP_folder.png" width="24" height="24">  Folder
+    </div>
+  <div class="xp-task">
+        <img src="https://preview.redd.it/windows-msn-messenger-v0-dyocfhk8255a1.png?width=640&format=png&auto=webp&s=f5605233c550fc9e3f81e0ce4fd42958ef2ccfc6" width="24" height="24""> MSN Messenger
+    </div>
+  </div>
+
+
+
+  <div class="xp-tray">
+    <img class="xp-tray-icon" src="https://windows-cdn.softpedia.com/screenshots/ico/volume-bar.gif" alt="Volume">
+    <img class="xp-tray-icon" src="https://64.media.tumblr.com/8be65af8cc065a7fcc65c85d29efe836/fe4e64d2515c425c-42/s540x810/e1d1243e5d68ca578ea147b14204f28178e4d9e8.png" alt="Network">
+    <span id="xp-clock">00:00</span>
+  </div>
+</div>
+
 
   <audio id="ambiance" src="https://static.wikia.nocookie.net/backrooms-freewriting/images/8/8a/Lastminutesofnostaliga.mp3" type="audio/mpeg" preload="auto" loop></audio>
 
