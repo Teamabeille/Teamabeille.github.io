@@ -107,30 +107,66 @@
 
   function makeDraggable(win) {
     const bar = win.querySelector(".title-bar");
-    let offsetX = 0, offsetY = 0, dragging = false;
+    let dragging = false, offsetX = 0, offsetY = 0;
 
-    bar.addEventListener("mousedown", (e) => {
+    const start = (clientX, clientY, target) => {
+      if (target.closest('.title-buttons')) return;
       dragging = true;
-      offsetX = e.clientX - win.offsetLeft;
-      offsetY = e.clientY - win.offsetTop;
+      win.style.zIndex = parseInt(win.style.zIndex || 10, 10) + 1;
+      offsetX = clientX - win.offsetLeft;
+      offsetY = clientY - win.offsetTop;
       document.body.style.userSelect = "none";
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      if (dragging) {
-        win.style.left = (e.clientX - offsetX) + "px";
-        win.style.top = (e.clientY - offsetY) + "px";
-      }
-    });
-
-    document.addEventListener("mouseup", () => {
+    };
+    const move = (clientX, clientY) => {
+      if (!dragging) return;
+      win.style.left = (clientX - offsetX) + "px";
+      win.style.top = (clientY - offsetY) + "px";
+    };
+    const end = () => {
       dragging = false;
       document.body.style.userSelect = "auto";
-    });
+    };
+
+    bar.addEventListener("mousedown", (e) => start(e.clientX, e.clientY, e.target));
+    document.addEventListener("mousemove", (e) => move(e.clientX, e.clientY));
+    document.addEventListener("mouseup", end);
+
+    bar.addEventListener("touchstart", (e) => {
+      const t = e.touches[0];
+      start(t.clientX, t.clientY, e.target);
+    }, { passive: true });
+    document.addEventListener("touchmove", (e) => {
+      const t = e.touches[0];
+      move(t.clientX, t.clientY);
+    }, { passive: true });
+    document.addEventListener("touchend", end);
   }
 
-  document.querySelectorAll(".window").forEach(makeDraggable);
-  </script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll(".window").forEach((win, i) => {
+      win.style.position = 'absolute';
+      if (!win.style.left) win.style.left = (200 + i*380) + "px";
+      if (!win.style.top) win.style.top = "200px";
+      makeDraggable(win);
+    });
+
+    const audio = document.getElementById('ambiance');
+    const playBtn = document.getElementById('playAmbiance');
+    if (audio && playBtn) {
+      const tryPlay = () => {
+        audio.play().then(() => {
+          playBtn.style.display = 'none';
+          window.removeEventListener('pointerdown', tryPlay);
+          window.removeEventListener('keydown', tryPlay);
+        }).catch(() => {});
+      };
+      window.addEventListener('pointerdown', tryPlay, { once: true });
+      window.addEventListener('keydown', tryPlay, { once: true });
+      playBtn.addEventListener('click', tryPlay);
+    }
+  });
+</script>
+
 
   <div class="window" style="left:200px; top:200px;">
     <div class="title-bar">
