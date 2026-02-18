@@ -116,10 +116,9 @@
     .play-btn:hover { background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); }
     .bubble {
       position: absolute;
-      bottom: -50px;
-      background: rgba(153,255,255,0.8);
-      border-radius: 50%;
+      bottom: -60px;
       animation: rise linear infinite;
+      pointer-events: none;
     }
     @keyframes rise {
       0% { transform: translateY(0) scale(1); opacity: 0.7; }
@@ -213,101 +212,104 @@
   </style>
 </head>
 <body>
-  <script>
-  const nbBulles = 50;
-  for (let i = 0; i < nbBulles; i++) {
-    const b = document.createElement("div");
-    b.className = "bubble";
-    const size = Math.floor(Math.random() * 20) + 10;
-    b.style.width = size + "px";
-    b.style.height = size + "px";
-    b.style.left = Math.floor(Math.random() * 100) + "%";
-    const duration = Math.random() * 12 + 8;
-    b.style.animationDuration = duration + "s";
-    const delay = Math.random() * 20;
-    b.style.animationDelay = delay + "s";
-    document.body.appendChild(b);
-  }
+<script>
+const nbBulles = 50;
+for (let i = 0; i < nbBulles; i++) {
+  const b = document.createElement("img");
+  b.src = "img/bubble.png";
+  b.className = "bubble";
+  const size = Math.floor(Math.random() * 30) + 20;
+  b.style.width = size + "px";
+  b.style.height = size + "px";
+  b.style.left = Math.floor(Math.random() * 100) + "%";
+  const duration = Math.random() * 12 + 8;
+  b.style.animationDuration = duration + "s";
+  const delay = Math.random() * 20;
+  b.style.animationDelay = delay + "s";
+  document.body.appendChild(b);
+}
 
-  function makeDraggable(win) {
-    const bar = win.querySelector(".title-bar");
-    let dragging = false, offsetX = 0, offsetY = 0;
+function makeDraggable(win) {
+  const bar = win.querySelector(".title-bar");
+  let dragging = false, offsetX = 0, offsetY = 0;
 
-    const start = (clientX, clientY, target) => {
-      if (target.closest('.title-buttons')) return;
-      dragging = true;
-      win.style.zIndex = parseInt(win.style.zIndex || 10, 10) + 1;
-      offsetX = clientX - win.offsetLeft;
-      offsetY = clientY - win.offsetTop;
-      document.body.style.userSelect = "none";
-    };
-    const move = (clientX, clientY) => {
-      if (!dragging) return;
-      win.style.left = (clientX - offsetX) + "px";
-      win.style.top = (clientY - offsetY) + "px";
-    };
-    const end = () => {
-      dragging = false;
-      document.body.style.userSelect = "auto";
-    };
+  const start = (clientX, clientY, target) => {
+    if (target.closest('.title-buttons')) return;
+    dragging = true;
+    win.style.zIndex = parseInt(win.style.zIndex || 10, 10) + 1;
+    offsetX = clientX - win.offsetLeft;
+    offsetY = clientY - win.offsetTop;
+    document.body.style.userSelect = "none";
+  };
+  const move = (clientX, clientY) => {
+    if (!dragging) return;
+    win.style.left = (clientX - offsetX) + "px";
+    win.style.top = (clientY - offsetY) + "px";
+  };
+  const end = () => {
+    dragging = false;
+    document.body.style.userSelect = "auto";
+  };
 
-    bar.addEventListener("mousedown", (e) => start(e.clientX, e.clientY, e.target));
-    document.addEventListener("mousemove", (e) => move(e.clientX, e.clientY));
-    document.addEventListener("mouseup", end);
+  bar.addEventListener("mousedown", (e) => start(e.clientX, e.clientY, e.target));
+  document.addEventListener("mousemove", (e) => move(e.clientX, e.clientY));
+  document.addEventListener("mouseup", end);
 
-    bar.addEventListener("touchstart", (e) => {
-      const t = e.touches[0];
-      start(t.clientX, t.clientY, e.target);
-    }, { passive: true });
-    document.addEventListener("touchmove", (e) => {
-      const t = e.touches[0];
-      move(t.clientX, t.clientY);
-    }, { passive: true });
-    document.addEventListener("touchend", end);
-  }
+  bar.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    start(t.clientX, t.clientY, e.target);
+  }, { passive: true });
+  document.addEventListener("touchmove", (e) => {
+    const t = e.touches[0];
+    move(t.clientX, t.clientY);
+  }, { passive: true });
+  document.addEventListener("touchend", end);
+}
 
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll(".window").forEach((win, i) => {
-      win.style.position = 'absolute';
-      if (!win.style.left) win.style.left = (200 + i*380) + "px";
-      if (!win.style.top) win.style.top = "200px";
-      makeDraggable(win);
-    });
-
-    const audio = document.getElementById('ambiance');
-    const playBtn = document.getElementById('playAmbiance');
-    if (audio && playBtn) {
-      const tryPlay = () => {
-        audio.play().then(() => {
-          playBtn.style.display = 'none';
-          window.removeEventListener('pointerdown', tryPlay);
-          window.removeEventListener('keydown', tryPlay);
-        }).catch(() => {});
-      };
-      window.addEventListener('pointerdown', tryPlay, { once: true });
-      window.addEventListener('keydown', tryPlay, { once: true });
-      playBtn.addEventListener('click', tryPlay);
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll(".window").forEach((win, i) => {
+    win.style.position = 'absolute';
+    if (!win.style.left) win.style.left = (200 + i*380) + "px";
+    if (!win.style.top) win.style.top = "200px";
+    makeDraggable(win);
   });
-  function updateClock() {
-    const el = document.getElementById('xp-clock');
-    if (!el) return;
-    const d = new Date();
-    const hh = String(d.getHours()).padStart(2, '0');
-    const mm = String(d.getMinutes()).padStart(2, '0');
-    el.textContent = `${hh}:${mm}`;
-  }
-  updateClock();
-  setInterval(updateClock, 15000);
 
-  document.querySelectorAll('.xp-task').forEach(task => {
-    task.addEventListener('click', () => {
-      const name = task.textContent.trim();
-      const wins = Array.from(document.querySelectorAll('.window'));
-      const target = wins.find(w => w.querySelector('.title-bar span')?.textContent.trim() === name);
-      if (target) target.style.zIndex = 100;
-    });
+  const audio = document.getElementById('ambiance');
+  const playBtn = document.getElementById('playAmbiance');
+  if (audio && playBtn) {
+    const tryPlay = () => {
+      audio.play().then(() => {
+        playBtn.style.display = 'none';
+        window.removeEventListener('pointerdown', tryPlay);
+        window.removeEventListener('keydown', tryPlay);
+      }).catch(() => {});
+    };
+    window.addEventListener('pointerdown', tryPlay, { once: true });
+    window.addEventListener('keydown', tryPlay, { once: true });
+    playBtn.addEventListener('click', tryPlay);
+  }
+});
+
+function updateClock() {
+  const el = document.getElementById('xp-clock');
+  if (!el) return;
+  const d = new Date();
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  el.textContent = `${hh}:${mm}`;
+}
+
+updateClock();
+setInterval(updateClock, 15000);
+
+document.querySelectorAll('.xp-task').forEach(task => {
+  task.addEventListener('click', () => {
+    const name = task.textContent.trim();
+    const wins = Array.from(document.querySelectorAll('.window'));
+    const target = wins.find(w => w.querySelector('.title-bar span')?.textContent.trim() === name);
+    if (target) target.style.zIndex = 100;
   });
+});
 </script>
 
 <div class="window" style="left:200px; top:200px;">
