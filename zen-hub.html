@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Teamabeille — Zen XP</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url("https://preview.redd.it/interior-render-inspired-by-frutiger-aero-aesthetic-v0-m8pm3k8nozzc1.jpeg?auto=webp&s=b73bb723f70bf524a304d219121f592bbeeefa81") center/cover no-repeat fixed;
+      font-family: "Segoe UI", "Frutiger", sans-serif;
+      color: #003b4a;
+      overflow: hidden;
+    }
+
+    .halo {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(255,255,255,0.7), rgba(255,255,255,0));
+      filter: blur(90px);
+      top: -250px;
+      left: -200px;
+      opacity: 0.8;
+      animation: float 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      from { transform: translate(0,0); }
+      to { transform: translate(60px, 40px); }
+    }
+
+    .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 520px;
+      padding: 32px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(18px);
+      border-radius: 18px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.15);
+      text-align: center;
+      animation: fadeIn 1.2s ease forwards;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -46%); }
+      to { opacity: 0.75; transform: translate(-50%, -50%); }
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #004d6b;
+      text-shadow: 0 0 6px rgba(255,255,255,0.6);
+    }
+
+    p {
+      font-size: 16px;
+      opacity: 0.85;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 22px;
+      margin: 8px;
+      background: linear-gradient(135deg, #ffffffaa, #dffcffaa);
+      border: 1px solid #7ac7ff;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #004d5e;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      transition: 0.25s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #ffffffdd, #e9ffffdd);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0, 180, 255, 0.4);
+    }
+
+    .small {
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="halo"></div>
+
+<div class="card">
+  <h1>Frutiger Zen</h1>
+  <p>
+    Bienvenue dans la première page intermédiaire.<br>
+    Cette page permet de vous emmenez vers de nouvelles pages.
+  </p>
+
+  <a class="btn" href="index.html">⬅ Retour à la page XP</a>
+  <a class="btn" href="projects.html">Mes projets</a>
+  <a class="btn" href="about.html">À propos de moi</a>
+
+  <div class="small">
+    Teamabeille • Frutiger Zen Edition <br>
+    Musique : yume 2kki • lotus waters
+  </div>
+</div>
+
+  <audio id="ambiance" src="music/lotuswaters.mp3" type="audio/mpeg" preload="auto" loop></audio>
+  <script>
+    const audio = document.getElementById('ambiance');
+    const playBtn = document.getElementById('playAmbiance');
+    const tryPlay = () => {
+      audio.play().then(() => {
+        playBtn.style.display = 'none';
+        window.removeEventListener('pointerdown', tryPlay);
+        window.removeEventListener('keydown', tryPlay);
+      }).catch(() => {});
+    };
+    window.addEventListener('pointerdown', tryPlay, { once: true });
+    window.addEventListener('keydown', tryPlay, { once: true });
+  </script>
+
+</body>
+</html>
