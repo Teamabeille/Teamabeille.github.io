@@ -117,19 +117,27 @@
 </div>
 
   <audio id="ambiance" src="music/lotuswaters.mp3" type="audio/mpeg" preload="auto" loop></audio>
-  <script>
-    const audio = document.getElementById('ambiance');
-    const playBtn = document.getElementById('playAmbiance');
-    const tryPlay = () => {
-      audio.play().then(() => {
-        playBtn.style.display = 'none';
-        window.removeEventListener('pointerdown', tryPlay);
-        window.removeEventListener('keydown', tryPlay);
-      }).catch(() => {});
+<script>
+  const audio = document.getElementById('ambiance');
+
+  audio.volume = 0;
+
+  audio.play().then(() => {
+    setTimeout(() => {
+      audio.volume = 1;
+    }, 300);
+  }).catch(() => {
+    const forcePlay = () => {
+      audio.play();
+      audio.volume = 1;
+      window.removeEventListener('pointerdown', forcePlay);
+      window.removeEventListener('keydown', forcePlay);
     };
-    window.addEventListener('pointerdown', tryPlay, { once: true });
-    window.addEventListener('keydown', tryPlay, { once: true });
-  </script>
+    window.addEventListener('pointerdown', forcePlay, { once: true });
+    window.addEventListener('keydown', forcePlay, { once: true });
+  });
+</script>
+
 
 </body>
 </html>
