@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>TeamAbeile's Lore - Projects</title>
+  <title>Projects — Soon</title>
 
   <style>
     body {
@@ -59,17 +59,29 @@
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 10px 18px;
-      border-radius: 999px;
-      border: 1px solid #7ac7ff;
-      background: rgba(255,255,255,0.8);
-      backdrop-filter: blur(10px);
+      padding: 12px 26px;
+      border-radius: 40px;
+      border: none;
+      background: linear-gradient(135deg, rgba(0,80,160,0.9), rgba(0,140,255,0.85));
+      color: white;
       font-weight: 600;
+      font-size: 16px;
       cursor: pointer;
-      color: #004d5e;
-      box-shadow: 0 0 12px rgba(0,0,0,0.15);
-      z-index: 3;
+      box-shadow:
+        0 0 18px rgba(0,150,255,0.7),
+        inset 0 0 12px rgba(255,255,255,0.25);
+      backdrop-filter: blur(6px);
+      transition: 0.25s ease;
+      z-index: 10;
     }
+
+    .play-btn:hover {
+      transform: translateX(-50%) scale(1.08);
+      box-shadow:
+        0 0 28px rgba(0,200,255,0.9),
+        inset 0 0 14px rgba(255,255,255,0.35);
+    }
+
     .bubble {
       position: absolute;
       bottom: -100px;
@@ -91,41 +103,32 @@
         opacity: 0;
       }
     }
+
+
     .fish {
       position: absolute;
       bottom: 0;
       pointer-events: none;
       opacity: 0.9;
-      animation: swim linear infinite;
     }
 
-    @keyframes swim {
-      0% {
-        transform: translateX(0) scale(1);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateX(100vw) scale(1);
-        opacity: 1;
-      }
+    .fish.ltr {
+      animation: swim-ltr linear infinite;
     }
 
-    .fish.reverse {
-      transform: scaleX(-1);
-      animation: swim-reverse linear infinite;
+    .fish.rtl {
+      animation: swim-rtl linear infinite;
     }
 
-    @keyframes swim-reverse {
-      0% {
-        transform: translateX(0) scaleX(-1);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateX(-100vw) scaleX(-1);
-        opacity: 1;
-      }
+    @keyframes swim-ltr {
+      0% { transform: translateX(-150px) scaleX(1); }
+      100% { transform: translateX(100vw) scaleX(1); }
     }
 
+    @keyframes swim-rtl {
+      0% { transform: translateX(100vw) scaleX(-1); }
+      100% { transform: translateX(-150px) scaleX(-1); }
+    }
 
   </style>
 </head>
@@ -154,15 +157,17 @@
     document.body.appendChild(b);
   }
 </script>
+
+
 <script>
-  const fishLeftToRight = [
+  const fishLeftFacing = [
     "img/fish/clown.png",
     "img/fish/tropical1.png",
     "img/fish/tropical2.png",
     "img/fish/tropical6.png"
   ];
 
-  const fishRightToLeft = [
+  const fishRightFacing = [
     "img/fish/tropical3.png",
     "img/fish/tropical4.png",
     "img/fish/tropical5.png"
@@ -171,19 +176,28 @@
   function spawnFish() {
     const fish = document.createElement("img");
 
+    const allFish = [...fishLeftFacing, ...fishRightFacing];
+    const chosen = allFish[Math.floor(Math.random() * allFish.length)];
+    fish.src = chosen;
+
     const direction = Math.random() < 0.5 ? "ltr" : "rtl";
 
+    const isLeftFacing = fishLeftFacing.includes(chosen);
+    const isRightFacing = fishRightFacing.includes(chosen);
+
     if (direction === "ltr") {
-      fish.src = fishLeftToRight[Math.floor(Math.random() * fishLeftToRight.length)];
-      fish.className = "fish";
+      fish.className = "fish ltr";
       fish.style.left = "-150px";
+
+      if (isRightFacing) fish.style.transform = "scaleX(1)";
     } else {
-      fish.src = fishRightToLeft[Math.floor(Math.random() * fishRightToLeft.length)];
-      fish.className = "fish reverse";
+      fish.className = "fish rtl";
       fish.style.left = "100vw";
+
+      if (isLeftFacing) fish.style.transform = "scaleX(-1)";
     }
 
-    const size = Math.floor(Math.random() * 60) + 40;
+    const size = Math.floor(Math.random() * 90) + 70;
     fish.style.width = size + "px";
 
     fish.style.top = Math.random() * 70 + "%";
@@ -198,6 +212,7 @@
 
   setInterval(spawnFish, Math.random() * 2000 + 2000);
 </script>
+
 
 
 <div class="halo">SOON</div>
