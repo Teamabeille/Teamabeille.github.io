@@ -104,7 +104,6 @@
       }
     }
 
-
     .fish {
       position: absolute;
       pointer-events: none;
@@ -128,7 +127,6 @@
       0% { transform: translateX(0) scaleX(-1); }
       100% { transform: translateX(-120vw) scaleX(-1); }
     }
-
   </style>
 </head>
 
@@ -157,27 +155,21 @@
   }
 </script>
 
-
 <script>
-  const leftFacing = [
+  const fishList = [
     "img/fish/clown.png",
     "img/fish/tropical1.png",
     "img/fish/tropical2.png",
-    "img/fish/tropical6.png",
     "img/fish/tropical3.png",
     "img/fish/tropical4.png",
-    "img/fish/tropical5.png"
-  ];
-
-  const rightFacing = [
-
+    "img/fish/tropical5.png",
+    "img/fish/tropical6.png"
   ];
 
   function spawnFish() {
     const fish = document.createElement("img");
 
-    const all = [...leftFacing, ...rightFacing];
-    const chosen = all[Math.floor(Math.random() * all.length)];
+    const chosen = fishList[Math.floor(Math.random() * fishList.length)];
     fish.src = chosen;
 
     const direction = Math.random() < 0.5 ? "ltr" : "rtl";
@@ -190,19 +182,14 @@
     const duration = Math.random() * 12 + 14;
     fish.style.animationDuration = duration + "s";
 
-    const isLeft = leftFacing.includes(chosen);
-    const isRight = rightFacing.includes(chosen);
-
     if (direction === "ltr") {
       fish.className = "fish ltr";
       fish.style.left = "-200px";
-
-      if (isRight) fish.style.transform = "scaleX(1)";
+      fish.style.transform = "scaleX(1)";
     } else {
       fish.className = "fish rtl";
       fish.style.left = "100vw";
-
-      if (isLeft) fish.style.transform = "scaleX(-1)";
+      fish.style.transform = "scaleX(-1)";
     }
 
     document.body.appendChild(fish);
@@ -210,8 +197,9 @@
     setTimeout(() => fish.remove(), duration * 1000 + 500);
   }
 
-  setInterval(spawnFish, 800); 
+  setInterval(spawnFish, 700);
 </script>
+
 
 
 
