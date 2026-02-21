@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TeamAbeile's Lore - Projects</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url("img/ocean.png") center/cover no-repeat fixed;
+      font-family: "Segoe UI", "Frutiger", sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .halo {
+      position: absolute;
+      width: 1100px;
+      height: 1100px;
+      background: radial-gradient(
+        circle,
+        rgba(0, 10, 40, 1) 0%,
+        rgba(0, 30, 90, 0.95) 25%,
+        rgba(0, 70, 160, 0.85) 50%,
+        rgba(0, 120, 255, 0.55) 75%,
+        rgba(0, 180, 255, 0.25) 90%
+        rgba(0, 0, 0, 0) 100%
+      );
+      filter: blur(40px);
+      top: -300px;
+      left: -250px;
+      opacity: 1;
+      animation: float 10s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+
+
+    @keyframes float {
+      from { transform: translate(0,0); }
+      to { transform: translate(40px, 60px); }
+    }
+
+    h1 {
+      font-size: 120px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 0 30px rgba(0,150,255,0.6);
+      z-index: 2;
+      user-select: none;
+    }
+
+    .play-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid #7ac7ff;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+      cursor: pointer;
+      color: #004d5e;
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+      z-index: 3;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+    .fish {
+      position: absolute;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0.9;
+      animation: swim linear infinite;
+    }
+
+    @keyframes swim {
+      0% {
+        transform: translateX(0) scale(1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateX(100vw) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .fish.reverse {
+      transform: scaleX(-1);
+      animation: swim-reverse linear infinite;
+    }
+
+    @keyframes swim-reverse {
+      0% {
+        transform: translateX(0) scaleX(-1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateX(-100vw) scaleX(-1);
+        opacity: 1;
+      }
+    }
+
+
+  </style>
+</head>
+
+<body>
+<script>
+  const nbBulles = 60;
+
+  for (let i = 0; i < nbBulles; i++) {
+    const b = document.createElement("img");
+    b.src = "img/bubble.png";
+    b.className = "bubble";
+
+    const size = Math.floor(Math.random() * 30) + 20;
+    b.style.width = size + "px";
+    b.style.height = size + "px";
+
+    b.style.left = Math.random() * 100 + "%";
+
+    const duration = Math.random() * 10 + 8;
+    b.style.animationDuration = duration + "s";
+
+    const delay = Math.random() * 10;
+    b.style.animationDelay = delay + "s";
+
+    document.body.appendChild(b);
+  }
+</script>
+<script>
+  const fishLeftToRight = [
+    "img/fish/clown.png",
+    "img/fish/tropical1.png",
+    "img/fish/tropical2.png",
+    "img/fish/tropical6.png"
+  ];
+
+  const fishRightToLeft = [
+    "img/fish/tropical3.png",
+    "img/fish/tropical4.png",
+    "img/fish/tropical5.png"
+  ];
+
+  function spawnFish() {
+    const fish = document.createElement("img");
+
+    const direction = Math.random() < 0.5 ? "ltr" : "rtl";
+
+    if (direction === "ltr") {
+      fish.src = fishLeftToRight[Math.floor(Math.random() * fishLeftToRight.length)];
+      fish.className = "fish";
+      fish.style.left = "-150px";
+    } else {
+      fish.src = fishRightToLeft[Math.floor(Math.random() * fishRightToLeft.length)];
+      fish.className = "fish reverse";
+      fish.style.left = "100vw";
+    }
+
+    const size = Math.floor(Math.random() * 60) + 40;
+    fish.style.width = size + "px";
+
+    fish.style.top = Math.random() * 70 + "%";
+
+    const duration = Math.random() * 10 + 12;
+    fish.style.animationDuration = duration + "s";
+
+    document.body.appendChild(fish);
+
+    setTimeout(() => fish.remove(), duration * 1000);
+  }
+
+  setInterval(spawnFish, Math.random() * 2000 + 2000);
+</script>
+
+
+<div class="halo">SOON</div>
+
+<h1>SOON</h1>
+
+<button class="play-btn" id="playAmbiance">Play ambiance</button>
+
+<audio id="ambiance" src="music/aquatic.mp3" preload="auto" loop></audio>
+
+<script>
+  const audio = document.getElementById('ambiance');
+  const playBtn = document.getElementById('playAmbiance');
+
+  const tryPlay = () => {
+    audio.play().then(() => {
+      playBtn.style.display = 'none';
+      window.removeEventListener('pointerdown', tryPlay);
+      window.removeEventListener('keydown', tryPlay);
+    }).catch(() => {});
+  };
+
+  window.addEventListener('pointerdown', tryPlay, { once: true });
+  window.addEventListener('keydown', tryPlay, { once: true });
+  playBtn.addEventListener('click', tryPlay);
+</script>
+
+</body>
+</html>
