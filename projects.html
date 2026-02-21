@@ -107,27 +107,26 @@
 
     .fish {
       position: absolute;
-      bottom: 0;
       pointer-events: none;
-      opacity: 0.9;
+      opacity: 0.95;
     }
-
+    
     .fish.ltr {
-      animation: swim-ltr linear infinite;
+      animation: swim-ltr linear forwards;
     }
-
+    
     .fish.rtl {
-      animation: swim-rtl linear infinite;
+      animation: swim-rtl linear forwards;
     }
-
+    
     @keyframes swim-ltr {
-      0% { transform: translateX(-150px) scaleX(1); }
-      100% { transform: translateX(100vw) scaleX(1); }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(120vw); }
     }
-
+    
     @keyframes swim-rtl {
-      0% { transform: translateX(100vw) scaleX(-1); }
-      100% { transform: translateX(-150px) scaleX(-1); }
+      0% { transform: translateX(0) scaleX(-1); }
+      100% { transform: translateX(-120vw) scaleX(-1); }
     }
 
   </style>
@@ -160,14 +159,14 @@
 
 
 <script>
-  const fishLeftFacing = [
+  const leftFacing = [
     "img/fish/clown.png",
     "img/fish/tropical1.png",
     "img/fish/tropical2.png",
     "img/fish/tropical6.png"
   ];
 
-  const fishRightFacing = [
+  const rightFacing = [
     "img/fish/tropical3.png",
     "img/fish/tropical4.png",
     "img/fish/tropical5.png"
@@ -176,42 +175,43 @@
   function spawnFish() {
     const fish = document.createElement("img");
 
-    const allFish = [...fishLeftFacing, ...fishRightFacing];
-    const chosen = allFish[Math.floor(Math.random() * allFish.length)];
+    const all = [...leftFacing, ...rightFacing];
+    const chosen = all[Math.floor(Math.random() * all.length)];
     fish.src = chosen;
 
     const direction = Math.random() < 0.5 ? "ltr" : "rtl";
 
-    const isLeftFacing = fishLeftFacing.includes(chosen);
-    const isRightFacing = fishRightFacing.includes(chosen);
+    const size = Math.floor(Math.random() * 100) + 80;
+    fish.style.width = size + "px";
+
+    fish.style.top = Math.random() * 75 + "%";
+
+    const duration = Math.random() * 12 + 14;
+    fish.style.animationDuration = duration + "s";
+
+    const isLeft = leftFacing.includes(chosen);
+    const isRight = rightFacing.includes(chosen);
 
     if (direction === "ltr") {
       fish.className = "fish ltr";
-      fish.style.left = "-150px";
+      fish.style.left = "-200px";
 
-      if (isRightFacing) fish.style.transform = "scaleX(1)";
+      if (isRight) fish.style.transform = "scaleX(1)";
     } else {
       fish.className = "fish rtl";
       fish.style.left = "100vw";
 
-      if (isLeftFacing) fish.style.transform = "scaleX(-1)";
+      if (isLeft) fish.style.transform = "scaleX(-1)";
     }
-
-    const size = Math.floor(Math.random() * 90) + 70;
-    fish.style.width = size + "px";
-
-    fish.style.top = Math.random() * 70 + "%";
-
-    const duration = Math.random() * 10 + 12;
-    fish.style.animationDuration = duration + "s";
 
     document.body.appendChild(fish);
 
-    setTimeout(() => fish.remove(), duration * 1000);
+    setTimeout(() => fish.remove(), duration * 1000 + 500);
   }
 
-  setInterval(spawnFish, Math.random() * 2000 + 2000);
+  setInterval(spawnFish, 800); 
 </script>
+
 
 
 
