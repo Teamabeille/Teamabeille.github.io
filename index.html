@@ -17,37 +17,47 @@
     }
 
     .window {
-      width: 340px;
-      border: 2px solid #0055aa;
-      border-radius: 4px;
-      box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-      background: #f0f0f0;
+      width: 360px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      overflow: hidden;
       position: absolute;
       z-index: 10;
     }
+
     .title-bar {
-      background: linear-gradient(to bottom, #0B49F4, #275EF5);
+      background: linear-gradient(
+        to bottom,
+        rgba(0,140,255,0.9),
+        rgba(0,90,200,0.85)
+      );
       color: white;
-      padding: 6px;
+      padding: 8px 10px;
       font-weight: bold;
-      border-bottom: 1px solid #002f5f;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: move;
-    }
-    .title-buttons {
-      display: flex;
-      gap: 2px;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(6px);
     }
 
     .title-buttons button {
-      width: 26px;
-      height: 26px;
-      border: none
-      background: none
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: none;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(4px);
       cursor: pointer;
-      padding: 0
+      transition: 0.2s;
+    }
+    
+    .title-buttons button:hover {
+      background: rgba(255,255,255,0.55);
     }
 
     .title-buttons button img {
@@ -60,25 +70,29 @@
     .content { padding: 16px; text-align: center; }
     .buttons a {
       display: block;
-      margin: 8px auto;
-      padding: 6px 12px;
-      background: linear-gradient(to bottom, #ffffff, #dcdcdc);
-      border: 1px solid #888;
-      border-radius: 3px;
-      box-shadow: inset 1px 1px #fff, inset -1px -1px #ccc;
+      margin: 10px auto;
+      padding: 8px 14px;
+      background: linear-gradient(135deg, rgba(0,120,255,0.9), rgba(0,180,255,0.85));
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,150,255,0.4);
       text-decoration: none;
-      color: black;
-      font-size: 14px;
+      color: white;
+      font-size: 15px;
       text-align: left;
+      backdrop-filter: blur(6px);
+      transition: 0.2s;
     }
+    
+    .buttons a:hover {
+      filter: brightness(1.15);
+    }
+
     .buttons img {
       vertical-align: middle;
       margin-right: 6px;
       width: 18px;
       height: 18px;
-    }
-    .buttons a:hover {
-      background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
     }
     .job-content {
       padding: 16px;
