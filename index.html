@@ -55,7 +55,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    
+
     .title-buttons button:hover {
       background: rgba(255,255,255,0.55);
     }
@@ -83,7 +83,7 @@
       backdrop-filter: blur(6px);
       transition: 0.2s;
     }
-    
+
     .buttons a:hover {
       filter: brightness(1.15);
     }
@@ -100,12 +100,12 @@
       text-align: left;
       line-height: 1.6;
     }
-    .job-content img { 
-      width: 16px; 
-      height: 16px; 
-      object-fit: contain; 
-      vertical-align: middle; 
-      margin-right: 6px; 
+    .job-content img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      vertical-align: middle;
+      margin-right: 6px;
     }
     .story-content {
       padding: 16px;
@@ -113,12 +113,12 @@
       text-align: left;
       line-height: 1.6;
     }
-    .story-content img { 
-      width: 16px; 
-      height: 16px; 
-      object-fit: contain; 
-      vertical-align: middle; 
-      margin-right: 6px; 
+    .story-content img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      vertical-align: middle;
+      margin-right: 6px;
     }
     .play-btn {
       display: inline-block; margin-top: 10px; padding: 6px 12px;
@@ -326,7 +326,7 @@ document.querySelectorAll('.xp-task').forEach(task => {
 });
 </script>
 
-<div class="window" style="left:200px; top:200px;">
+<div class="window" style="left:200px; top:100px;">
   <div class="title-bar">
     <span>Job.exe</span>
     <div class="title-buttons">
@@ -361,7 +361,7 @@ document.querySelectorAll('.xp-task').forEach(task => {
 </div>
 
 
-  <div class="window" style="left:600px; top:200px;">
+  <div class="window" style="left:600px; top:100px;">
     <div class="title-bar">
       <span>Me.exe</span>
       <div class="title-buttons">
@@ -409,12 +409,15 @@ document.querySelectorAll('.xp-task').forEach(task => {
     <a href="https://discord.gg/Y89ABSA3yX">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Mon Discord : team_abeille
     </a>
+    <a href="https://pin.it/594NgpqHd">
+      <img src="https://s.pinimg.com/webapp/logo_transparent_144x144-3da7a67b.png" alt="Pinterest"> Mon Pinterest
+    </a>
   </div>
   <button class="play-btn" id="playAmbiance">Play ambiance</button>
 </div>
 </div>
 
-<div class="window" style="left:1000px; top:200px;">
+<div class="window" style="left:1000px; top:100px;">
   <div class="title-bar">
     <span>Game.exe</span>
     <div class="title-buttons">
@@ -439,7 +442,7 @@ document.querySelectorAll('.xp-task').forEach(task => {
 
 
 
-<div class="window" style="left:1000px; top:450px;">
+<div class="window" style="left:1000px; top:350px;">
   <div class="title-bar">
     <span>Personality.exe</span>
     <div class="title-buttons">
@@ -459,6 +462,46 @@ document.querySelectorAll('.xp-task').forEach(task => {
   </div>
 </div>
 
+<div class="window" style="left:1000px; top:570px;">
+  <div class="title-bar">
+    <span>Next.exe</span>
+    <div class="title-buttons">
+      <button class="minimize">
+        <img src="img/box.png">
+      </button>
+      <button class="close">
+        <img src="img/close.png">
+      </button>
+    </div>
+  </div>
+
+  <div class="story-content">
+    <h3 style="margin-top:0; color:white; text-shadow:0 0 6px rgba(0,150,255,0.8);">
+      Accéder au prochain module
+    </h3>
+
+    <p style="color:white; opacity:0.9;">
+      Cliquez ci‑dessous pour ouvrir le hub suivant.
+    </p>
+
+    <a href="zen-hub.html"
+       style="
+         display:inline-block;
+         margin-top:12px;
+         padding:10px 18px;
+         background:linear-gradient(135deg, rgba(0,120,255,0.9), rgba(0,180,255,0.85));
+         border:1px solid rgba(255,255,255,0.4);
+         border-radius:10px;
+         color:white;
+         text-decoration:none;
+         font-weight:600;
+         box-shadow:0 0 12px rgba(0,150,255,0.5);
+         backdrop-filter:blur(6px);
+       ">
+      Ouvrir Zen Hub →
+    </a>
+  </div>
+</div>
 
 
 <div class="xp-taskbar">
@@ -512,4 +555,3 @@ document.querySelectorAll('.xp-task').forEach(task => {
   </script>
 </body>
 </html>
-
