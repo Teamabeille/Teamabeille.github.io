@@ -420,7 +420,6 @@ document.querySelectorAll('.xp-task').forEach(task => {
   </div>
 </div>
 
-<!--
 <div class="window" style="left:980px; top:370px;">
   <div class="title-bar">
     <span>Random.gif</span>
@@ -434,7 +433,7 @@ document.querySelectorAll('.xp-task').forEach(task => {
     <img src="img/gif/tree.gif" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
   </div>
 </div>
--->
+
 
 <div class="window" style="left:980px; top:675px;">
   <div class="title-bar">
@@ -589,85 +588,6 @@ document.querySelectorAll('.xp-task').forEach(task => {
 
   </div>
 </div>
-
-<div class="window" style="left:980px; top:410px; width:360px; border-radius:12px; background:rgba(255,255,255,0.25); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.4); box-shadow:0 8px 20px rgba(0,0,0,0.35); overflow:hidden; position:absolute; z-index:10;">
-
-  <div class="title-bar" style="
-    background:linear-gradient(to bottom, rgba(0,140,255,0.9), rgba(0,90,200,0.85));
-    color:white; padding:8px 10px; font-weight:bold;
-    display:flex; justify-content:space-between; align-items:center;
-    cursor:move; border-bottom:1px solid rgba(255,255,255,0.3);
-    backdrop-filter:blur(6px);
-  ">
-    <span>Counter.exe</span>
-    <div class="title-buttons">
-      <button class="minimize" style="width:22px;height:22px;border-radius:6px;border:none;background:none;cursor:pointer;">
-        <img src="img/box.png" style="width:100%;height:100%;">
-      </button>
-      <button class="close" style="width:22px;height:22px;border-radius:6px;border:none;background:none;cursor:pointer;">
-        <img src="img/close.png" style="width:100%;height:100%;">
-      </button>
-    </div>
-  </div>
-
-  <div style="padding:20px; text-align:center;">
-
-    <div style="
-      font-size:22px; font-weight:bold; color:#ffffff;
-      text-shadow:0 0 6px rgba(0,200,255,0.8), 0 0 12px rgba(0,120,255,0.6);
-      margin-bottom:18px;
-    ">
-      Nombre de visiteurs :
-    </div>
-
-    <div style="
-      width: 260px;
-      height: 70px;
-      margin: 0 auto;
-      border-radius: 18px;
-
-      background: radial-gradient(circle at 30% 30%,
-          rgba(255,255,255,0.85) 0%,
-          rgba(180,220,255,0.55) 25%,
-          rgba(0,140,255,0.45) 60%,
-          rgba(0,90,200,0.55) 100%
-      );
-
-      box-shadow:
-        0 0 18px rgba(0,150,255,0.7),
-        0 0 35px rgba(0,120,255,0.5),
-        inset 0 0 10px rgba(255,255,255,0.6),
-        inset 0 0 22px rgba(0,140,255,0.45),
-        inset 0 -10px 18px rgba(0,60,150,0.55);
-
-      backdrop-filter: blur(10px);
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    ">
-      <span id="visitor-count" style="
-        font-size: 36px;
-        font-weight: bold;
-        color: white;
-        text-shadow:
-          0 0 6px rgba(255,255,255,0.9),
-          0 0 12px rgba(0,200,255,0.9),
-          0 0 18px rgba(0,120,255,0.8),
-          0 0 26px rgba(0,80,255,0.7);
-      ">0</span>
-    </div>
-
-  </div>
-</div>
-
-<script>
-fetch("counter.php")
-  .then(r => r.text())
-  .then(n => {
-    document.getElementById("visitor-count").textContent = n;
-  });
-</script>
 
 
 <div class="xp-taskbar">
