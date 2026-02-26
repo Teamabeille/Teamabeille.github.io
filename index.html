@@ -658,27 +658,17 @@ document.querySelectorAll('.xp-task').forEach(task => {
       ">0</span>
     </div>
 
-
   </div>
 </div>
 
 <script>
-function updateVisitorCounter() {
-  let count = localStorage.getItem("visitorCount");
-
-  if (!count) {
-    count = 1;
-  } else {
-    count = parseInt(count) + 1;
-  }
-
-  localStorage.setItem("visitorCount", count);
-
-  document.getElementById("visitor-count").textContent = count;
-}
-
-updateVisitorCounter();
+fetch("counter.php")
+  .then(r => r.text())
+  .then(n => {
+    document.getElementById("visitor-count").textContent = n;
+  });
 </script>
+
 
 <div class="xp-taskbar">
 <div class="xp-start">
