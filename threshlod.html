@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Threshold.exe</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: "Press Start 2P", monospace;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  @font-face {
+    font-family: "Press Start 2P";
+    src: url("https://fonts.gstatic.com/s/pressstart2p/v11/e3t4euO8T-267oIAQAu6jDQyK3nX.woff2");
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 2px,
+        rgba(0,0,0,0.05) 3px
+      ),
+      url("img/threshold.png");
+    background-size: cover;
+    mix-blend-mode: overlay;
+    animation: crtFlicker 0.25s infinite, vhsNoise 0.8s infinite;
+    opacity: 0.25;
+  }
+
+  @keyframes crtFlicker {
+    0% { opacity: 0.15; }
+    50% { opacity: 0.30; }
+    100% { opacity: 0.15; }
+  }
+
+  @keyframes vhsNoise {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+    100% { transform: translateY(0px); }
+  }
+
+  .vhs-line {
+    position: fixed;
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    mix-blend-mode: screen;
+    animation: vhsLineMove 0.8s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes vhsLineMove {
+    0% { top: -5%; opacity: 0; }
+    20% { opacity: 0.4; }
+    50% { opacity: 0.2; }
+    100% { top: 105%; opacity: 0; }
+  }
+
+  .color-bleed {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: lighten;
+    opacity: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(255,0,0,0.15),
+      rgba(0,255,255,0.15)
+    );
+    animation: bleedAnim 3s infinite;
+  }
+
+  @keyframes bleedAnim {
+    0% { opacity: 0; transform: translateY(0px); }
+    40% { opacity: 0.25; transform: translateY(6px); }
+    80% { opacity: 0.15; transform: translateY(-4px); }
+    100% { opacity: 0; transform: translateY(0px); }
+  }
+
+  .rgb-flash {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      to right,
+      rgba(255,0,0,0.4),
+      rgba(0,255,255,0.4)
+    );
+    mix-blend-mode: screen;
+  }
+
+  @keyframes rgbFlashAnim {
+    0% { opacity: 0; transform: translate(0,0); }
+    20% { opacity: 0.6; transform: translate(-4px,2px); }
+    40% { opacity: 0.8; transform: translate(4px,-2px); }
+    60% { opacity: 0.5; transform: translate(-2px,3px); }
+    100% { opacity: 0; transform: translate(0,0); }
+  }
+
+  .screen {
+    width: 100vw;
+    height: 100vh;
+    background: url("img/threshold.png") center/cover no-repeat;
+    position: relative;
+    image-rendering: pixelated;
+    overflow: hidden;
+  }
+
+  .panel {
+    position: absolute;
+    top: 50%;
+    width: 420px;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.60);
+    border: 3px solid #ff2b2b;
+    padding: 22px;
+    border-radius: 8px;
+    box-shadow: 0 0 18px #ff0000;
+    font-size: 13px;
+    line-height: 20px;
+    backdrop-filter: blur(2px);
+  }
+
+  .left-panel { left: 40px; }
+  .right-panel { right: 40px; }
+
+  .panel-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #ff2b2b;
+    text-shadow: 0 0 8px #ff0000;
+  }
+
+  .lore-glitch {
+    position: absolute;
+    font-size: 14px;
+    color: #ff2b2b;
+    opacity: 0;
+    pointer-events: none;
+    text-shadow: 0 0 8px #ff0000, 0 0 14px #ff0000;
+    animation: glitchFloat 3s infinite;
+  }
+
+  @keyframes glitchFloat {
+    0% { transform: translateY(0px); opacity: 0; }
+    20% { opacity: 1; }
+    50% { transform: translateY(-6px); opacity: 0.8; }
+    100% { transform: translateY(0px); opacity: 0; }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+
+  <div class="panel left-panel">
+    <div class="panel-title">Présentation</div>
+    Threshold est un <b>open world retro shooter</b> inspiré de Postal 2 et DOOM.
+    On y contrôle <b>Thomas</b>, un adolescent tombé au seuil de sa santé mentale
+    après un événement majeur. Le monde autour de lui se déforme, les gens
+    deviennent comme non-réels. Le but du jeu est de tuer des personnes pour obtenir
+    des points et acheter des armes à des marchants.
+  </div>
+
+  <div class="panel right-panel">
+    <div class="panel-title">Gameplay</div>
+    • Plusieurs armes avec des références variées<br>
+    • Tuer les personnes rencontrées pour gagner des points<br>
+    • Acheter de nouvelles armes et gadgets<br>
+    • Explorer la map librement<br>
+    • Trouver des éléments du <b>lore</b> cachés<br>
+    • Ambiance retro, liminale et cartoon
+  </div>
+
+  <div class="footer">© Te4mAb3ille - Threshold Project</div>
+
+  <!-- VHS + GLITCH LAYERS -->
+  <div class="vhs-line"></div>
+  <div class="color-bleed"></div>
+  <div id="rgb-flash" class="rgb-flash"></div>
+  <div id="glitch-container"></div>
+
+</div>
+
+<script>
+const messages = [
+  "???",
+  "where are you",
+  "why did you do that",
+  "he is still here",
+  "you shouldn't be here",
+  "wake up",
+  "it's not real",
+  "run",
+  "don't look behind you",
+  "he remembers",
+  "stop",
+  "come back",
+  "please",
+  "he sees you"
+];
+
+function spawnGlitch() {
+  const div = document.createElement("div");
+  div.className = "lore-glitch";
+  div.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+  div.style.left = Math.random() * 80 + "vw";
+  div.style.top = Math.random() * 80 + "vh";
+
+  document.getElementById("glitch-container").appendChild(div);
+
+  setTimeout(() => div.remove(), 3000);
+}
+
+setInterval(spawnGlitch, Math.random() * 2500 + 1500);
+
+function rgbFlash() {
+  const flash = document.getElementById("rgb-flash");
+  flash.style.animation = "rgbFlashAnim 0.25s linear";
+
+  setTimeout(() => {
+    flash.style.animation = "none";
+  }, 300);
+}
+
+setInterval(rgbFlash, Math.random() * 5000 + 3000);
+</script>
+
+</body>
+</html>
