@@ -114,7 +114,6 @@ body::after {
 .screen {
   width: 100vw;
   height: 100vh;
-  background: url("img/threshold.png") center/cover no-repeat;
   position: relative;
   image-rendering: pixelated;
   overflow: hidden;
@@ -162,6 +161,23 @@ body::after {
   100% { transform: translateY(0px); opacity: 0; }
 }
 
+.glitch-image {
+  position: absolute;
+  width: 120px;
+  height: auto;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px #ff0000);
+  animation: glitchImageAnim 2.5s forwards;
+}
+
+@keyframes glitchImageAnim {
+  0% { opacity: 0; transform: translate(0,0) scale(1); }
+  10% { opacity: 1; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.2); }
+}
+
 .footer {
   position: absolute;
   bottom: 10px;
@@ -202,25 +218,16 @@ body::after {
   <div class="color-bleed"></div>
   <div id="rgb-flash" class="rgb-flash"></div>
   <div id="glitch-container"></div>
+  <div id="glitch-images"></div>
 
 </div>
 
 <script>
 const messages = [
-  "???",
-  "where are you",
-  "why did you do that",
-  "he is still here",
-  "you shouldn't be here",
-  "wake up",
-  "it's not real",
-  "run",
-  "don't look behind you",
-  "he remembers",
-  "stop",
-  "come back",
-  "please",
-  "he sees you"
+  "???","where are you","why did you do that","he is still here",
+  "you shouldn't be here","wake up","it's not real","run",
+  "don't look behind you","he remembers","stop","come back",
+  "please","he sees you"
 ];
 
 function spawnGlitch() {
@@ -242,6 +249,28 @@ function rgbFlash() {
 }
 
 setInterval(rgbFlash, Math.random() * 5000 + 3000);
+
+const glitchImages = [
+  "img/threshold/ghost1.png",
+  "img/threshold/ghost2.png",
+  "img/threshold/ghost3.png"
+];
+
+function spawnGlitchImage() {
+  const img = document.createElement("img");
+  img.className = "glitch-image";
+  img.src = glitchImages[Math.floor(Math.random() * glitchImages.length)];
+  img.style.left = Math.random() * 80 + "vw";
+  img.style.top = Math.random() * 80 + "vh";
+  const dx = (Math.random() * 200 - 100) + "px";
+  const dy = (Math.random() * 200 - 100) + "px";
+  img.style.setProperty("--dx", dx);
+  img.style.setProperty("--dy", dy);
+  document.getElementById("glitch-images").appendChild(img);
+  setTimeout(() => img.remove(), 2500);
+}
+
+setInterval(spawnGlitchImage, Math.random() * 6000 + 4000);
 </script>
 
 </body>
